@@ -1,0 +1,20 @@
+{
+  "name": "kame-tui",
+  "description": "TUI module of kame",
+  "version": "0.1.0",
+  "devDependencies": {
+    "@types/node": "^20.5.8"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "directory": "packages/kame-tui",
+    "type": "git",
+    "url": "https://github.com/sasaplus1/kame.git"
+  },
+  "sideEffects": false,
+  "type": "module"
+}
