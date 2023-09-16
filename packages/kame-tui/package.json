@@ -2,8 +2,13 @@
   "name": "kame-tui",
   "description": "TUI module of kame",
   "version": "0.1.0",
+  "dependencies": {
+    "ink": "^4.4.1",
+    "react": "^18.2.0"
+  },
   "devDependencies": {
-    "@types/node": "^20.5.8"
+    "@types/node": "^20.5.8",
+    "@types/react": "^18.2.21"
   },
   "engines": {
     "node": "18"
