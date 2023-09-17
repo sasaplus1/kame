@@ -1,4 +1,5 @@
 import type { TextProps } from 'ink';
+
 import cliTruncate from 'cli-truncate';
 import * as React from 'react';
 import stringWidth from 'string-width';

@@ -53,7 +53,7 @@ function App() {
           width={width}
         />
         <Entry
-          entry={`t${'o'.repeat(100)}-long-file.txt`}
+          entry={`t${'o'.repeat(512)}-long-file.txt`}
           mode="-rw-"
           size="100 kB"
           date="2023/09/17 00:05"
