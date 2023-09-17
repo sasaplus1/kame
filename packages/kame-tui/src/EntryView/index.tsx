@@ -20,7 +20,7 @@ export type Props = {
   entries: Omit<EntryProps, 'width'>[];
   path: string;
   pathStyles?: StyleProps;
-} & Pick<ScrollBoxProps, 'offset'> &
+} & Partial<Pick<ScrollBoxProps, 'offset'>> &
   BoxProps;
 
 export function EntryView(props: Props) {
@@ -34,7 +34,7 @@ export function EntryView(props: Props) {
     }
   }, []);
 
-  const { entries, path, pathStyles, offset, ...boxProps } = props;
+  const { entries, path, pathStyles, offset = 0, ...boxProps } = props;
 
   return (
     <Box {...boxProps} ref={ref} flexDirection="column">
