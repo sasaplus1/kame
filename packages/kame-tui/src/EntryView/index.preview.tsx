@@ -8,12 +8,14 @@ import { EntryView } from './index';
 
 const entries: EntryViewProps['entries'] = [
   {
+    key: '1',
     entry: 'file.txt',
     mode: '-rw-',
     size: '100 kB',
     date: '2023/09/17 00:05'
   },
   {
+    key: '2',
     marker: '+',
     entry: 'dir/',
     mode: 'drwx',
@@ -21,6 +23,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '3',
     entryStyles: { dimColor: true },
     entry: '.gitignore',
     mode: '-rw-',
@@ -28,12 +31,14 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '4',
     entry: `t${'o'.repeat(512)}-long-file.txt`,
     mode: '-rw-',
     size: '100 kB',
     date: '2023/09/17 00:05'
   },
   {
+    key: '5',
     entry:
       'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす.txt',
     mode: '-rw-',
@@ -41,6 +46,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '6',
     marker: '*',
     entry: 'file.txt',
     mode: '-rw-',
@@ -48,6 +54,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '7',
     allStyles: { bold: true, dimColor: true },
     entry: 'file.txt',
     mode: '-rw-',
@@ -55,6 +62,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '8',
     allStyles: { underline: true },
     entry: 'file.txt',
     mode: '-rw-',
@@ -62,6 +70,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '9',
     allStyles: { inverse: true },
     entry: 'file.txt',
     mode: '-rw-',
@@ -69,6 +78,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '10',
     cursorStyles: { backgroundColor: 'gray' },
     markerStyles: { color: 'green' },
     entryStyles: { color: 'red' },
@@ -82,6 +92,7 @@ const entries: EntryViewProps['entries'] = [
     date: '2023/09/17 00:05'
   },
   {
+    key: '11',
     allStyles: { dimColor: true },
     cursorStyles: { backgroundColor: 'gray' },
     markerStyles: { color: 'green' },

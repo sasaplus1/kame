@@ -17,7 +17,7 @@ export type DecorationProps =
 export type StyleProps = Pick<TextProps, ColorProps | DecorationProps>;
 
 export type Props = {
-  entries: Omit<EntryProps, 'width'>[];
+  entries: (Omit<EntryProps, 'width'> & { key: string })[];
   path: string;
   pathStyles?: StyleProps;
 } & Partial<Pick<ScrollBoxProps, 'offset'>> &
@@ -26,6 +26,7 @@ export type Props = {
 export function EntryView(props: Props) {
   const ref = React.useRef<DOMElement>(null);
 
+  // NOTE: initial width inject by props
   const [width, setWidth] = React.useState(process.stdout.columns);
 
   React.useEffect(() => {
@@ -37,17 +38,17 @@ export function EntryView(props: Props) {
   const { entries, path, pathStyles, offset = 0, ...boxProps } = props;
 
   return (
-    <Box {...boxProps} ref={ref} flexDirection="column">
+    <Box
+      {...boxProps}
+      ref={ref}
+      flexDirection="column"
+      width="100%"
+      height="100%"
+    >
       <Text {...pathStyles}>{path}</Text>
       <ScrollBox offset={offset} height="100%">
-        {entries.map((entry, index) => (
-          <Entry
-            {...entry}
-            key={
-              path + entry.entry + entry.mode + entry.size + entry.date + index
-            }
-            width={width}
-          />
+        {entries.map(({ key, ...entry }) => (
+          <Entry {...entry} key={key} width={width} />
         ))}
       </ScrollBox>
     </Box>
