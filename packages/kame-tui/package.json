@@ -6,6 +6,7 @@
     "@sasaplus1/ink-hooks": "^0.1.0",
     "@sasaplus1/ink-scroll-box": "^0.1.1",
     "cli-truncate": "^3.1.0",
+    "filesize": "^10.0.12",
     "immer": "^10.0.2",
     "ink": "^4.4.1",
     "react": "^18.2.0",
