@@ -3,17 +3,38 @@
   "description": "core module of kame",
   "version": "0.1.0",
   "devDependencies": {
-    "@types/node": "^20.5.8"
+    "@types/node": "^20.5.8",
+    "microbundle": "^0.15.1"
   },
   "engines": {
     "node": "18"
   },
+  "exports": {
+    ".": {
+      "default": "./dist/index.modern.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "./dist/*"
+  ],
   "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.mjs",
   "private": true,
   "repository": {
     "directory": "packages/kame-core",
     "type": "git",
     "url": "https://github.com/sasaplus1/kame.git"
   },
-  "sideEffects": false
+  "scripts": {
+    "build": "microbundle build --target node",
+    "watch": "microbundle watch --target node"
+  },
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "umd:main": "./dist/index.umd.js",
+  "unpkg": "./dist/index.umd.js"
 }
