@@ -12,7 +12,8 @@
     "ink": "^4.4.1",
     "kame-core": "*",
     "react": "^18.2.0",
-    "string-width": "^6.1.0"
+    "string-width": "^6.1.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.8",
