@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "dependencies": {
     "@sasaplus1/ink-hooks": "^0.1.0",
+    "@sasaplus1/ink-inner-sizes": "^0.1.0",
     "@sasaplus1/ink-scroll-box": "^0.1.1",
     "cli-truncate": "^3.1.0",
     "filesize": "^10.0.12",
