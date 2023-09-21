@@ -25,8 +25,10 @@ export function getModifiedTime(stat: fs.Stats): {
   };
 }
 
+export type FileType = 'd' | 'l' | '-' | '?';
+
 /***/
-export async function getFileType(entry: string): Promise<string> {
+export async function getFileType(entry: string): Promise<FileType> {
   const [stat, lstat] = await Promise.all([
     fs.promises.stat(entry),
     fs.promises.lstat(entry)
@@ -53,9 +55,7 @@ export async function getFileType(entry: string): Promise<string> {
 }
 
 /***/
-export async function getPermission(entry: string): Promise<string> {
-  const stat = await fs.promises.stat(entry);
-
+export async function getPermission(stat: fs.Stats): Promise<string> {
   const mode = stat.mode & 0o700;
 
   const r = mode & 0o400 ? 'r' : '-';
