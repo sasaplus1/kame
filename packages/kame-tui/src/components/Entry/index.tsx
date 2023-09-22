@@ -60,7 +60,7 @@ export function Entry(props: Props) {
     () =>
       width -
       (cursor.length + marker.length + 1) -
-      (1 + mode.length + 1 + size.length + 1 + date.length),
+      (2 + mode.length + 2 + size.length + 2 + date.length),
     [width, cursor.length, marker.length, mode.length, size.length, date.length]
   );
 
@@ -95,15 +95,15 @@ export function Entry(props: Props) {
         {truncatedEntry}
       </Text>
       <Text>{spacer}</Text>
-      <Text> </Text>
+      <Text>{'  '}</Text>
       <Text {...allStyles} {...modeStyles}>
         {mode}
       </Text>
-      <Text> </Text>
+      <Text>{'  '}</Text>
       <Text {...allStyles} {...sizeStyles}>
         {size}
       </Text>
-      <Text> </Text>
+      <Text>{'  '}</Text>
       <Text {...allStyles} {...dateStyles}>
         {date}
       </Text>
