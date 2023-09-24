@@ -15,7 +15,6 @@ export type DecorationProps =
 export type StyleProps = Pick<TextProps, ColorProps | DecorationProps>;
 
 export type Props = {
-  /** needs for spacer calculation */
   width: number;
 } & {
   marker?: string;
