@@ -49,12 +49,7 @@ export function EntryView(props: Props) {
       </Text>
       <ScrollBox offset={offset} height="100%">
         {entries.map(({ key, ...entry }) => (
-          <Entry
-            {...entry}
-            key={key}
-            width={width}
-            allStyles={isFocused ? {} : { dimColor: true }}
-          />
+          <Entry {...entry} key={key} width={width} />
         ))}
       </ScrollBox>
     </Box>

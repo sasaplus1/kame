@@ -9,17 +9,16 @@ import { Entry } from './index';
 function App() {
   const { exit } = useApp();
 
-  const ref = React.useRef<DOMElement>(null);
-
-  const [width, setWidth] = React.useState(process.stdout.columns);
-
   useInput((input) => {
     if (input === 'q') {
       exit();
     }
   });
 
-  React.useEffect(() => {
+  const ref = React.useRef<DOMElement>(null);
+  const [width, setWidth] = React.useState(process.stdout.columns);
+
+  React.useLayoutEffect(() => {
     if (ref.current) {
       setWidth(measureElement(ref.current).width);
     }
@@ -37,16 +36,8 @@ function App() {
           width={width}
         />
         <Entry
-          marker="+"
-          entry="dir/"
-          mode="drwx"
-          size="      "
-          date="2023/09/17 00:05"
-          width={width}
-        />
-        <Entry
-          entryStyles={{ dimColor: true }}
-          entry=".gitignore"
+          marker="*"
+          entry="file.txt"
           mode="-rw-"
           size="100 kB"
           date="2023/09/17 00:05"
@@ -67,7 +58,15 @@ function App() {
           width={width}
         />
         <Entry
-          marker="*"
+          marker="+"
+          entry="dir/"
+          mode="drwx"
+          size="      "
+          date="2023/09/17 00:05"
+          width={width}
+        />
+        <Entry
+          focused
           entry="file.txt"
           mode="-rw-"
           size="100 kB"
@@ -75,52 +74,7 @@ function App() {
           width={width}
         />
         <Entry
-          allStyles={{ bold: true, dimColor: true }}
-          entry="file.txt"
-          mode="-rw-"
-          size="100 kB"
-          date="2023/09/17 00:05"
-          width={width}
-        />
-        <Entry
-          allStyles={{ underline: true }}
-          entry="file.txt"
-          mode="-rw-"
-          size="100 kB"
-          date="2023/09/17 00:05"
-          width={width}
-        />
-        <Entry
-          allStyles={{ inverse: true }}
-          entry="file.txt"
-          mode="-rw-"
-          size="100 kB"
-          date="2023/09/17 00:05"
-          width={width}
-        />
-        <Entry
-          cursorStyles={{ backgroundColor: 'gray' }}
-          markerStyles={{ color: 'green' }}
-          entryStyles={{ color: 'red' }}
-          modeStyles={{ color: 'green' }}
-          sizeStyles={{ color: 'yellow' }}
-          dateStyles={{ color: 'blue' }}
-          marker="*"
-          entry="file.txt"
-          mode="-rw-"
-          size="100 kB"
-          date="2023/09/17 00:05"
-          width={width}
-        />
-        <Entry
-          allStyles={{ dimColor: true }}
-          cursorStyles={{ backgroundColor: 'gray' }}
-          markerStyles={{ color: 'green' }}
-          entryStyles={{ color: 'red' }}
-          modeStyles={{ color: 'green' }}
-          sizeStyles={{ color: 'yellow' }}
-          dateStyles={{ color: 'blue' }}
-          marker="*"
+          selected
           entry="file.txt"
           mode="-rw-"
           size="100 kB"

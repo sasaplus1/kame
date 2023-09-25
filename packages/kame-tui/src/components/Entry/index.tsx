@@ -1,20 +1,12 @@
-import type { TextProps } from 'ink';
-
 import cliTruncate from 'cli-truncate';
 import * as React from 'react';
 import stringWidth from 'string-width';
 import { Text } from 'ink';
-
-export type ColorProps = 'color' | 'backgroundColor' | 'dimColor';
-export type DecorationProps =
-  | 'bold'
-  | 'italic'
-  | 'underline'
-  | 'strikethrough'
-  | 'inverse';
-export type StyleProps = Pick<TextProps, ColorProps | DecorationProps>;
+import { useEntryStyleStore } from '../../stores/entry-style';
 
 export type Props = {
+  focused?: boolean;
+  selected?: boolean;
   width: number;
 } & {
   marker?: string;
@@ -22,14 +14,6 @@ export type Props = {
   mode: string;
   size: string;
   date: string;
-} & {
-  allStyles?: StyleProps;
-  cursorStyles?: StyleProps;
-  markerStyles?: StyleProps;
-  entryStyles?: StyleProps;
-  modeStyles?: StyleProps;
-  sizeStyles?: StyleProps;
-  dateStyles?: StyleProps;
 };
 
 /**
@@ -38,19 +22,14 @@ export type Props = {
  */
 export function Entry(props: Props) {
   const {
+    focused = false,
+    selected = false,
     width,
     marker = ' ',
     entry,
     mode,
     size,
-    date,
-    allStyles,
-    cursorStyles,
-    markerStyles,
-    entryStyles,
-    modeStyles,
-    sizeStyles,
-    dateStyles
+    date
   } = props;
 
   const cursor = ' ';
@@ -81,29 +60,55 @@ export function Entry(props: Props) {
     [spaceLength]
   );
 
+  const {
+    baseStyle,
+    focusedBaseStyle,
+    selectedBaseStyle,
+    cursorStyle,
+    markerStyle,
+    entryStyle,
+    modeStyle,
+    sizeStyle,
+    dateStyle
+  } = useEntryStyleStore((state) => ({
+    baseStyle: state.baseStyle,
+    focusedBaseStyle: state.focusedBaseStyle,
+    selectedBaseStyle: state.selectedBaseStyle,
+    cursorStyle: state.cursorStyle,
+    markerStyle: state.markerStyle,
+    entryStyle: state.entryStyle,
+    modeStyle: state.modeStyle,
+    sizeStyle: state.sizeStyle,
+    dateStyle: state.dateStyle
+  }));
+
   return (
-    <Text {...allStyles}>
-      <Text {...allStyles} {...cursorStyles}>
+    <Text
+      {...baseStyle}
+      {...(selected ? selectedBaseStyle : {})}
+      {...(focused ? focusedBaseStyle : {})}
+    >
+      <Text {...baseStyle} {...cursorStyle}>
         {cursor}
       </Text>
-      <Text {...allStyles} {...markerStyles}>
+      <Text {...baseStyle} {...markerStyle}>
         {marker}
       </Text>
       <Text> </Text>
-      <Text {...allStyles} {...entryStyles}>
+      <Text {...baseStyle} {...entryStyle}>
         {truncatedEntry}
       </Text>
       <Text>{spacer}</Text>
       <Text>{'  '}</Text>
-      <Text {...allStyles} {...modeStyles}>
+      <Text {...baseStyle} {...modeStyle}>
         {mode}
       </Text>
       <Text>{'  '}</Text>
-      <Text {...allStyles} {...sizeStyles}>
+      <Text {...baseStyle} {...sizeStyle}>
         {size}
       </Text>
       <Text>{'  '}</Text>
-      <Text {...allStyles} {...dateStyles}>
+      <Text {...baseStyle} {...dateStyle}>
         {date}
       </Text>
     </Text>
