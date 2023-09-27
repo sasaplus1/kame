@@ -1,10 +1,38 @@
-import type { ImmerStateCreator } from './type';
+import type { ImmerStateCreator } from './slice';
+import type { TextStyle } from './style';
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+export type EntryId = string;
+
+export type Store = {
+  pathStyle: TextStyle;
+  focusedPathStyle: TextStyle;
+  setPathStyle: (style: TextStyle) => void;
+  setFocusedPathStyle: (style: TextStyle) => void;
+};
+
+/** store for EntryView */
+export const useEntryViewStore = create<Store>()(
+  immer((set) => ({
+    pathStyle: { color: 'blue' },
+    focusedPathStyle: { color: 'red', bold: true },
+    setPathStyle(style) {
+      set((state) => {
+        state.pathStyle = style;
+      });
+    },
+    setFocusedPathStyle(style) {
+      set((state) => {
+        state.focusedPathStyle = style;
+      });
+    }
+  }))
+);
+
 export type Entry = {
-  id: string;
+  id: EntryId;
   entry: string;
   mode: string;
   size: string;
@@ -12,31 +40,31 @@ export type Entry = {
 };
 
 export type Slice = {
-  cursorEntry: Entry | null;
+  cursor: EntryId | null;
   entries: Entry[];
   filter: string;
-  isFocused: boolean;
-  markedEntries: Entry[];
+  focused: boolean;
+  marks: EntryId[];
   path: string;
-  setCursorEntry: (entry: Entry | null) => void;
+  setCursor: (entryId: EntryId | null) => void;
   setEntries: (entries: Entry[]) => void;
   setFilter: (filter: string) => void;
-  setFocus: (focus: boolean) => void;
-  setMarkedEntries: (entries: Entry[]) => void;
+  setFocused: (focus: boolean) => void;
+  setMarks: (entryIds: EntryId[]) => void;
   setPath: (path: string) => void;
 };
 
 const createSlice: ImmerStateCreator<Slice> = (set) => {
   return {
-    cursorEntry: null,
+    cursor: null,
     entries: [],
     filter: '',
-    isFocused: false,
-    markedEntries: [],
+    focused: false,
+    marks: [],
     path: '',
-    setCursorEntry(entry) {
+    setCursor(id) {
       set((state) => {
-        state.cursorEntry = entry;
+        state.cursor = id;
       });
     },
     setEntries(entries) {
@@ -49,14 +77,14 @@ const createSlice: ImmerStateCreator<Slice> = (set) => {
         state.filter = filter;
       });
     },
-    setFocus(focus) {
+    setFocused(focus) {
       set((state) => {
-        state.isFocused = focus;
+        state.focused = focus;
       });
     },
-    setMarkedEntries(entries) {
+    setMarks(entryIds) {
       set((state) => {
-        state.markedEntries = entries;
+        state.marks = entryIds;
       });
     },
     setPath(path) {
@@ -67,15 +95,15 @@ const createSlice: ImmerStateCreator<Slice> = (set) => {
   };
 };
 
-export const useEntryViewStores = [
-  create<Slice>()(
-    immer((...args) => ({
-      ...createSlice(...args)
-    }))
-  ),
-  create<Slice>()(
-    immer((...args) => ({
-      ...createSlice(...args)
-    }))
-  )
-] as const;
+/** store for primary EntryView */
+export const usePrimaryEntryViewStore = create<Slice>()(
+  immer((...args) => ({
+    ...createSlice(...args)
+  }))
+);
+/** store for secondary EntryView */
+export const useSecondaryEntryViewStore = create<Slice>()(
+  immer((...args) => ({
+    ...createSlice(...args)
+  }))
+);

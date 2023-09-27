@@ -1,17 +1,7 @@
-import type { TextProps } from 'ink';
+import type { TextStyle } from './style';
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-
-// NOTE: avoid TS2742
-type TextPropsWithoutTypeFest = Omit<TextProps, 'backgroundColor' | 'color'>;
-
-export type TextStyle = Partial<
-  {
-    backgroundColor: string;
-    color: string;
-  } & Omit<TextPropsWithoutTypeFest, 'children' | 'wrap'>
->;
 
 export type Store = {
   baseStyle: TextStyle;
@@ -34,10 +24,10 @@ export type Store = {
   setDateStyle: (style: TextStyle) => void;
 };
 
-export const useEntryStyleStore = create<Store>()(
+export const useEntryStore = create<Store>()(
   immer((set) => ({
     baseStyle: {},
-    focusedBaseStyle: {},
+    focusedBaseStyle: { underline: true },
     selectedBaseStyle: {},
     cursorStyle: {},
     markerStyle: {},

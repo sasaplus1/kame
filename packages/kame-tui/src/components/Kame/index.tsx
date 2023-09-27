@@ -1,10 +1,13 @@
 import type { BoxProps } from 'ink';
 
 import { useFullscreen, useResize } from '@sasaplus1/ink-hooks';
-import { Box } from 'ink';
+import { Box, Text } from 'ink';
 import * as React from 'react';
 import { EntryView } from '../EntryView';
-import { useEntryViewStores } from '../../stores/entry-view';
+import {
+  usePrimaryEntryViewStore,
+  useSecondaryEntryViewStore
+} from '../../stores/entry-view';
 
 export type Props = {
   // TODO: left and right
@@ -30,27 +33,51 @@ export function Kame(props: Props) {
 
   const { width, height } = useResize();
 
-  const [L, R] = useEntryViewStores;
+  const primaryEntryViewState = usePrimaryEntryViewStore((state) => state);
+  const secondaryEntryViewState = useSecondaryEntryViewStore((state) => state);
 
-  const entryViewStateL = L((state) => state);
-  const entryViewStateR = R((state) => state);
+  const primaryEntries = React.useMemo(() => {
+    return primaryEntryViewState.entries.map((entry) => ({
+      ...entry,
+      key: entry.id
+    }));
+  }, [primaryEntryViewState.entries]);
+  const secondaryEntries = React.useMemo(() => {
+    return secondaryEntryViewState.entries.map((entry) => ({
+      ...entry,
+      key: entry.id
+    }));
+  }, [secondaryEntryViewState.entries]);
 
   return (
-    <React.Fragment>
-      <Box width={width} height={height}>
+    <Box width={width} height={height} flexDirection="column">
+      <Box>
         <EntryView
-          entries={entryViewStateL.entries}
-          isFocused={entryViewStateL.isFocused}
-          path={entryViewStateL.path}
+          cursor={primaryEntryViewState.cursor}
+          entries={primaryEntries}
+          focused={primaryEntryViewState.focused}
+          path={primaryEntryViewState.path}
+          /* offset */
         />
         <EntryView
-          entries={entryViewStateR.entries}
-          isFocused={entryViewStateR.isFocused}
-          path={entryViewStateR.path}
+          cursor={secondaryEntryViewState.cursor}
+          entries={secondaryEntries}
+          focused={secondaryEntryViewState.focused}
+          path={secondaryEntryViewState.path}
           {...border}
+          /* offset */
         />
       </Box>
-      {/* some panels here */}
-    </React.Fragment>
+      <Box
+        minHeight={3}
+        borderStyle="single"
+        borderTop
+        borderLeft={false}
+        borderRight={false}
+        borderBottom={false}
+      >
+        <Text>K: mkdir</Text>
+      </Box>
+    </Box>
   );
 }

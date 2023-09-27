@@ -2,7 +2,8 @@ import cliTruncate from 'cli-truncate';
 import * as React from 'react';
 import stringWidth from 'string-width';
 import { Text } from 'ink';
-import { useEntryStyleStore } from '../../stores/entry-style';
+import { shallow } from 'zustand/shallow';
+import { useEntryStore } from '../../stores/entry';
 
 export type Props = {
   focused?: boolean;
@@ -70,17 +71,20 @@ export function Entry(props: Props) {
     modeStyle,
     sizeStyle,
     dateStyle
-  } = useEntryStyleStore((state) => ({
-    baseStyle: state.baseStyle,
-    focusedBaseStyle: state.focusedBaseStyle,
-    selectedBaseStyle: state.selectedBaseStyle,
-    cursorStyle: state.cursorStyle,
-    markerStyle: state.markerStyle,
-    entryStyle: state.entryStyle,
-    modeStyle: state.modeStyle,
-    sizeStyle: state.sizeStyle,
-    dateStyle: state.dateStyle
-  }));
+  } = useEntryStore(
+    (state) => ({
+      baseStyle: state.baseStyle,
+      focusedBaseStyle: state.focusedBaseStyle,
+      selectedBaseStyle: state.selectedBaseStyle,
+      cursorStyle: state.cursorStyle,
+      markerStyle: state.markerStyle,
+      entryStyle: state.entryStyle,
+      modeStyle: state.modeStyle,
+      sizeStyle: state.sizeStyle,
+      dateStyle: state.dateStyle
+    }),
+    shallow
+  );
 
   return (
     <Text

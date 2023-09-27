@@ -1,6 +1,16 @@
 import { useApp, useInput } from 'ink';
 import * as React from 'react';
-import { useEntryViewStores } from '../stores/entry-view';
+import {
+  usePrimaryEntryViewStore,
+  useSecondaryEntryViewStore
+} from '../stores/entry-view';
+import {
+  moveCursor,
+  moveCursorToNext,
+  moveCursorToPrevious,
+  switchActiveEntryView,
+  changeDirectory
+} from './interaction';
 
 type InputHandler = Parameters<typeof useInput>[0];
 
@@ -12,26 +22,35 @@ export type Props = {
 export function Command(props: Props) {
   const { exit } = useApp();
 
-  const [L, R] = useEntryViewStores;
-  const entryViewStateL = L((state) => state);
-  const entryViewStateR = R((state) => state);
+  const primaryEntryViewState = usePrimaryEntryViewStore((state) => state);
+  const secondaryEntryViewState = useSecondaryEntryViewStore((state) => state);
 
   const onInput = React.useCallback<InputHandler>(
-    (input, key) => {
+    async (input, key) => {
       if (input === 'q') {
         return void exit();
       }
       if (key.tab) {
-        entryViewStateL.setFocus(!entryViewStateL.isFocused);
-        entryViewStateR.setFocus(!entryViewStateR.isFocused);
-        return;
+        return void switchActiveEntryView();
       }
-      // TODO: gg, G
+      // TODO: gg
+      if (input === 'g') {
+        return void moveCursor({ position: 'first' });
+      }
+      if (input === 'G') {
+        return void moveCursor({ position: 'last' });
+      }
       if (input === 'k' /* C-p, up */) {
-        return;
+        return void moveCursorToPrevious({ loop: true });
       }
       if (input === 'j' /* C-n, down */) {
-        return;
+        return void moveCursorToNext({ loop: true });
+      }
+      if (input === 'h') {
+        return void (await changeDirectory({ direction: 'up' }));
+      }
+      if (input === 'l') {
+        return void (await changeDirectory({ direction: 'down' }));
       }
       // mark
       // if (space) {
@@ -67,7 +86,7 @@ export function Command(props: Props) {
       // if (input === ';') {
       // }
     },
-    [exit, entryViewStateL, entryViewStateR]
+    [exit, primaryEntryViewState, secondaryEntryViewState]
   );
 
   useInput(onInput);

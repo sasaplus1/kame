@@ -5,16 +5,19 @@ import * as React from 'react';
 
 import { Command } from './commands/index';
 import { Kame } from './components/Kame';
-import { useEntryViewStores } from './stores/entry-view';
+import {
+  usePrimaryEntryViewStore,
+  useSecondaryEntryViewStore
+} from './stores/entry-view';
 import { getEntryData } from './utilities/entry';
 
-const L = useEntryViewStores[0].getState();
-const R = useEntryViewStores[1].getState();
+const L = usePrimaryEntryViewStore.getState();
+const R = useSecondaryEntryViewStore.getState();
 
 const dir = path.normalize(process.cwd());
 
 getEntries(dir).then(async (entries) => {
-  const promises = await entries.map(async (entry) => {
+  const promises = entries.map(async (entry) => {
     return await getEntryData(path.resolve(dir, entry));
   });
 
@@ -25,8 +28,9 @@ getEntries(dir).then(async (entries) => {
   L.setEntries(a);
   R.setEntries(a);
 
-  L.setFocus(true);
-  L.setCursorEntry(a.at(0) || null);
+  L.setFocused(true);
+  L.setCursor(a.at(0)?.id || null);
+  R.setCursor(a.at(0)?.id || null);
 });
 
 L.setPath(dir);
