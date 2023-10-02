@@ -21,9 +21,7 @@ export type Props = {
   entries: Entry[];
   focused: boolean;
   path: string;
-  // TODO
-} & Partial<Pick<InViewBoxProps, 'cursor'>> &
-  BoxProps;
+} & BoxProps;
 
 export function EntryView(props: Props) {
   const { cursor, entries, focused, path, ...boxProps } = props;

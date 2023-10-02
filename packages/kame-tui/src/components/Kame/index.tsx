@@ -57,15 +57,14 @@ export function Kame(props: Props) {
           entries={primaryEntries}
           focused={primaryEntryViewState.focused}
           path={primaryEntryViewState.path}
-          /* offset */
         />
         <EntryView
           cursor={secondaryEntryViewState.cursor}
           entries={secondaryEntries}
           focused={secondaryEntryViewState.focused}
           path={secondaryEntryViewState.path}
-          {...border}
           /* offset */
+          {...border}
         />
       </Box>
       <Box
