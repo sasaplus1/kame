@@ -1,4 +1,5 @@
-import * as path from 'path';
+import * as crypto from 'node:crypto';
+import * as path from 'node:path';
 import {
   getFileType,
   getModifiedTime,
@@ -18,9 +19,11 @@ export async function getEntryData(entry: string) {
     getPermission(entry)
   ]);
 
+  const uuid = crypto.randomUUID();
+
   const result = {
-    id: String(stat.ino),
-    key: String(stat.ino),
+    id: uuid,
+    key: uuid,
     entry: path.basename(entry),
     date: formatDate(date),
     mode: formatMode(filetype, permission),
