@@ -1,14 +1,13 @@
 import type { BoxProps, DOMElement } from 'ink';
-import type { Props as ScrollBoxProps } from '@sasaplus1/ink-scroll-box';
+import type { Props as InViewBoxProps } from '@sasaplus1/ink-in-view-box';
 import type { Props as EntryProps } from '../Entry';
 import type { EntryId } from '../../stores/entry-view';
 
 import { Box, Text, measureElement } from 'ink';
 import * as React from 'react';
-import { shallow } from 'zustand/shallow';
 import { innerWidth } from '@sasaplus1/ink-inner-sizes';
 import { useResize } from '@sasaplus1/ink-hooks';
-import { ScrollBox } from '@sasaplus1/ink-scroll-box';
+import { InViewBox } from '@sasaplus1/ink-in-view-box';
 import { Entry } from '../Entry';
 import { useEntryViewStore } from '../../stores/entry-view';
 
@@ -22,11 +21,12 @@ export type Props = {
   entries: Entry[];
   focused: boolean;
   path: string;
-} & Partial<Pick<ScrollBoxProps, 'offset'>> &
+  // TODO
+} & Partial<Pick<InViewBoxProps, 'cursor'>> &
   BoxProps;
 
 export function EntryView(props: Props) {
-  const { cursor, entries, focused, path, offset = 0, ...boxProps } = props;
+  const { cursor, entries, focused, path, ...boxProps } = props;
 
   const ref = React.useRef<DOMElement>(null);
 
@@ -41,13 +41,18 @@ export function EntryView(props: Props) {
     }
   }, [columns, boxProps]);
 
-  const { pathStyle, focusedPathStyle } = useEntryViewStore(
-    (state) => ({
-      pathStyle: state.pathStyle,
-      focusedPathStyle: state.focusedPathStyle
-    }),
-    shallow
-  );
+  const { pathStyle, focusedPathStyle } = useEntryViewStore((state) => ({
+    pathStyle: state.pathStyle,
+    focusedPathStyle: state.focusedPathStyle
+  }));
+
+  const cursorIndex = React.useMemo(() => {
+    if (cursor === null) {
+      return -1;
+    }
+
+    return entries.findIndex(({ id }) => id === cursor);
+  }, [cursor, entries]);
 
   return (
     <Box
@@ -64,11 +69,11 @@ export function EntryView(props: Props) {
       >
         {path}
       </Text>
-      <ScrollBox offset={offset} height="100%">
+      <InViewBox cursor={cursorIndex} height="100%">
         {entries.map(({ id, key, ...entry }) => (
           <Entry {...entry} key={key} width={width} focused={cursor === id} />
         ))}
-      </ScrollBox>
+      </InViewBox>
     </Box>
   );
 }
